@@ -15,4 +15,9 @@ class Laboratory extends Model
         'nombre',
         'ubicacion'
     ];
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'product_laboratory', 'laboratory_id', 'product_id');
+    }
 }

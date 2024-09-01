@@ -18,4 +18,25 @@ class Purchase extends Model
         'user_id',
         'employee_id'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'purchase_product', 'purchase_id', 'product_id')
+            ->using(PurchaseProduct::class)
+            ->withPivot([
+                'cantidad',
+                'sub_total',
+                'unit_id'
+            ]);
+    }
 }

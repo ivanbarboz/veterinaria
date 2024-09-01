@@ -16,4 +16,14 @@ class UserDocument extends Model
         'document_type_id',
         'nro_documento'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function documentType()
+    {
+        return $this->belongsTo(DocumentType::class);
+    }
 }

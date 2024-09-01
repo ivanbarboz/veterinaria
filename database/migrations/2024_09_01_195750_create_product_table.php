@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('nombre', 80);
             $table->string('descripcion', 255);
-            $table->decimal('precio', 8, 2);
             $table->date('fecha_vencimiento');
             $table->timestamps();
         });

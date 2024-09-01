@@ -19,4 +19,11 @@ class Employee extends Model
         'fecha_nacimiento',
         'ubicacion'
     ];
+
+    public function documentTypes()
+    {
+        return $this->belongsToMany(DocumentType::class, 'employee_document', 'employee_id', 'document_type_id')
+            ->using(EmployeeDocument::class)
+            ->withPivot('nro_documento');
+    }
 }

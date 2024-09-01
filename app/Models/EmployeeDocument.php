@@ -16,4 +16,14 @@ class EmployeeDocument extends Model
         'document_type_id',
         'nro_documento'
     ];
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
+    }
+
+    public function documentType()
+    {
+        return $this->belongsTo(DocumentType::class);
+    }
 }

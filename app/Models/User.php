@@ -47,4 +47,11 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function documentTypes()
+    {
+        return $this->belongsToMany(DocumentType::class, 'user_document', 'user_id', 'document_type_id')
+            ->using(UserDocument::class)
+            ->withPivot('nro_documento');
+    }
 }

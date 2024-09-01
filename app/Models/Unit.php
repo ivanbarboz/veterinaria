@@ -14,4 +14,15 @@ class Unit extends Model
     protected $fillable = [
         'nombre'
     ];
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'product_unit', 'unit_id', 'product_id')
+            ->using(ProductUnit::class)
+            ->withPivot([
+                'stock_actual',
+                'stock',
+                'ultimo_abastecimiento'
+            ]);
+    }
 }

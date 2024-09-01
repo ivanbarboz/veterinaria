@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('product_unit', function (Blueprint $table) {
             $table->foreignId('product_id')->constrained('product');
             $table->foreignId('unit_id')->constrained('unit');
+            $table->decimal('precio', 8, 2);
             $table->integer('stock_actual');
             $table->integer('stock');
             $table->date('ultimo_abastecimiento');
