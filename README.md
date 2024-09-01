@@ -31,7 +31,7 @@ Paso a paso de lo que debes ejecutar para tener el proyecto ejecutandose
     ```bash
     npm install
     ```
- 5. Crea el archivo ".env" copiando la información del [ejemplo](https://github.com/susananzth/3-laravel-crud/blob/main/.env.example) y cambiar valores de su Base de datos.
+ 5. Crea el archivo ".env" copiando la información del ejemplo y cambiar valores de su Base de datos.
  6. Ejecute las migraciones
     ```bash
     php artisan migrate
