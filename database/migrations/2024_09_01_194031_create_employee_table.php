@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('telefono', 10);
             $table->string('correo', 120);
             $table->date('fecha_nacimiento');
+            $table->string('ubicacion', 120);
             $table->timestamps();
         });
     }

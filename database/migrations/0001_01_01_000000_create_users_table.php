@@ -17,14 +17,15 @@ return new class extends Migration
             $table->string('apellidos');
             $table->string('correo')->unique();
             $table->char('estado', 1);
+            $table->string('telefono', 10);
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('contraseña');
             $table->rememberToken();
             $table->timestamps();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
-            $table->string('email')->primary();
+            $table->string('correo')->primary();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
         });
