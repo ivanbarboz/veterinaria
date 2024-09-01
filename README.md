@@ -1,66 +1,159 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Veterinaria (Laravel)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Software para el proceso de reclamos web orientado a productos de una veterianaria.
 
-## About Laravel
+### Pre-requisitos 📋
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+_Que cosas necesitas para poner en marcha el proyecto y como instalarlos_
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+* GIT [Link](https://git-scm.com/downloads)
+* Entorno de servidor local, Ej: [Laragon](https://laragon.org/download/), [XAMPP](https://www.apachefriends.org/es/index.html) o [LAMPP](https://bitnami.com/stack/lamp/installer).
+* PHP Version 7.4 - 8.0 [Link](https://www.php.net/downloads.php).
+* Manejador de dependencias de PHP [Composer](https://getcomposer.org/download/).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Instalación 🔧
 
-## Learning Laravel
+Paso a paso de lo que debes ejecutar para tener el proyecto ejecutandose
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+ 1. Clona el repositorio con el siguiente comando:
+    ```bash
+    git clone git@github.com:ivanbarboz/veterinaria.git
+    ```
+ 4. Ingresa a la carpeta del repositorio
+    ```bash
+    cd repositorio
+    ```
+ 5. Instala las dependencias del proyecto
+    ```bash
+    composer install
+    ```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+    ```bash
+    npm install
+    ```
+ 5. Crea el archivo ".env" copiando la información del [ejemplo](https://github.com/susananzth/3-laravel-crud/blob/main/.env.example) y cambiar valores de su Base de datos.
+ 6. Ejecute las migraciones
+    ```
+    php artisan migrate
+    ```
+ 7. Inicialice el servidor local
+    ```
+    php artisan serve
+    ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Diagrama Entidad - Relación
+```mermaid
+---
+title: Veterinaria
+---
+erDiagram
+    unit {
+        int id "Identificador de la unidad"
+        varchar(20) nombre "Nombre de la unidad"
+    }
 
-## Laravel Sponsors
+    product {
+        int id "Identificador del producto"
+        varchar(80) nombre "Nombre del producto"
+        decimal precio "Precio del producto"
+        date fecha_vencimiento "Fecha en la que el producto vence"
+    }
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+    product_unit {
+        int product_id "Identificador del producto"
+        int unit_id "Identificador de la unidad"
+        int current_stock "Cantidad actual del producto"
+        int stock "El stock inicial en el ultimo ingreso"
+        date last_entry "Fecha del ultimo ingreso del producto con la unidad"
+    }
 
-### Premium Partners
+    laboratory {
+        int id "Identificador del laboratorio"
+        varchar(80) nombre "Nombre del laboratorio"
+        varchar(120) ubicacion "Ubicación del laboratorio"
+    }
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+    product_laboratory {
+        int product_id 
+        int laboratory_id
+    }
 
-## Contributing
+    document_type {
+        int id "Identificador del documento"
+        varchar(40) nombre "Nombre del documento"
+    }
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    user_document {
+        int user_id "Identificador del usuario"
+        int document_type_id "Identificador del tipo de documento"
+        varchar(20) nro_document "Número del documento"
+    }
 
-## Code of Conduct
+    user {
+        int id "Identificador del usuario (Cliente)"
+        varchar(120) nombres "Nombres del usuario"
+        varchar(120) apellidos "Apellidos del usuario"
+        varchar(160) correo "Correo del usuario"
+        varchar(1) estado "Estado de la cuenta A (Activado) D (Desactivado)"
+    }
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+    employee {
+        int id "Identificador del empleado"
+        varchar(120) nombres "Nombres del empleado"
+        varchar(120) apellidos "Apellidos del empleado"
+        varchar(10) telefono "Número de telefono del empleado"
+        varchar(120) correo "Correo del empleado"
+        date fecha_nacimiento "Fecha de nacimiento del empleado" 
+    }
 
-## Security Vulnerabilities
+    employee_document {
+        int employee_id "Identificador del empleado"
+        int document_type_id "Identificador del tipo de documento"
+    }
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+    purchase {
+        int id "Identificador de compra"
+        varchar(120) cod_compra "Código de identificación de compra"
+        date fecha_compra "Fecha de la compra"
+        decimal monto_total "Monto pagado por la compra"
+        int user_id "Usuario que realizo la compra"
+        int employee_id "Empleado que atendi la compra"
+    }
 
-## License
+    purchase_product {
+        int purchase_id "Identificador de la compra"
+        int product_id "Identificador del producto"
+        int cantidad "Cantidad del producto por compra"
+    }
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    claim {
+        int id "Identificador del reclamo"
+        varchar(255) descripcion "Descripción del reclamo"
+        date fecha_respuesta "Fecha en la que se respondio al reclamo"
+        varchar(1) modo_respuesta "C (Correo), T (Telefono), L (Legal)"
+        varchar(20) cod_compra "Código de la compra"
+        int user_id "Indentificador del usuario"
+        int product_id "Identificador del producto"
+        int employee_id "Identificador del empleado"
+    }
+
+    product_laboratory }|--|| laboratory : "fabrica"
+    product ||--|{ product_laboratory : "lo fabrican"
+    product_unit }|--|| product : "esta disponible"
+    unit ||--|{ product_unit : "la tienen disponible"
+    
+    user ||--|{ user_document : "tiene"
+    user_document }|--|| document_type : "lo tienen"
+
+    employee_document }|--|| employee : "tiene"
+    document_type ||--|{ employee_document : "lo tienen"
+
+    product ||--|{ purchase_product : "pertenece"
+    purchase ||--|{ purchase_product : "contiene"
+    employee ||--|{ purchase : "atiende"
+    user ||--|{ purchase : "realiza"
+
+    user ||--|{ claim : "realiza"
+    employee ||--|{ claim : "atiende"
+    claim }|--|| product : "esta en"
+```
