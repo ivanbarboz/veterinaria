@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Claim;
 use App\Models\DocumentType;
+use App\Models\Purchase;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class ClaimController extends Controller
 {
@@ -32,56 +34,78 @@ class ClaimController extends Controller
     {
         // Validar los datos de entrada
         $request->validate([
-            'nombres' => 'required|string|max:255',
-            'apellidos' => 'required|string|max:255',
-            'correo' => 'required|email',
-            'telefono' => 'required|string|max:15',
-            'user_document' => 'required|integer', // ID del tipo de documento
-            'number_document' => 'required|string|max:20', // Número de documento
-            'cod_compra' => 'required|string|max:20',
-            'fecha_compra' => 'required|date',
-            'modo_respuesta' => 'required|string|max:1',
-            'descripcion' => 'required|string|max:1000',
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'email' => 'required|email',
+            'phone' => 'required|string|max:15',
+            'document_type_id' => 'required|integer',
+            'document_number' => 'required|integer',
+            'purchase_code' => 'required|string|max:20',
+            'purchase_date' => 'required|date',
+            'response_mode' => 'required|string|max:1',
+            'description' => 'required|string|max:1000',
         ]);
-
+    
+        // Verificar si el código de compra existe
+        $purchase = Purchase::where('purchase_code', $request->purchase_code)->first();
+        
+        if (!$purchase) {
+            return response()->json(['success' => false, 'message' => 'El código de compra no existe.'], 404);
+        }
+    
         // Verificar si el usuario ya existe
-        $user = User::where('email', $request->correo)->first();
-
+        $user = User::where('email', $request->email)->first();
+    
         if (!$user) {
             // Si el usuario no existe, crearlo
             $user = User::create([
-                'firstname' => $request->nombres,
-                'lastname' => $request->apellidos,
-                'email' => $request->correo,
+                'firstname' => $request->firstname,
+                'lastname' => $request->lastname,
+                'email' => $request->email,
                 'status' => 'I', // Estado inactivo
-                'phone' => $request->telefono,
+                'phone' => $request->phone,
                 'password' => bcrypt('defaultpassword'), // Contraseña por defecto
             ]);
         }
-
-        // Verificar si el tipo de documento existe
-        $documentType = DocumentType::find($request->user_document);
-        
-        if ($documentType) {
-            // Asignar el documento al usuario si no existe en la tabla pivot
-            if (!$user->documentTypes()->where('document_type_id', $documentType->id)
-                ->where('document_number', $request->number_document)->exists()) {
-                $user->documentTypes()->attach($documentType->id, ['document_number' => $request->number_document]);
-            }
+    
+        // Verificar el tipo de documento
+        $documentType = DocumentType::find($request->document_type_id);
+    
+        if (!$documentType) {
+            return response()->json(['success' => false, 'message' => 'Tipo de documento no encontrado.'], 404);
         }
-
+    
+        // Asignar el documento al usuario si no existe en la tabla pivot
+        if (!$user->documentTypes()->where('document_type_id', $documentType->id)
+            ->where('document_number', $request->document_number)
+            ->exists()) {
+            $user->documentTypes()->attach($documentType->id, ['document_number' => $request->document_number]);
+        }
+    
         // Crear el reclamo
-        Claim::create([
-            'user_id' => $user->id, // Usar el ID del usuario encontrado o creado
-            'cod_compra' => $request->cod_compra,
-            'fecha_compra' => $request->fecha_compra,
-            'modo_respuesta' => $request->modo_respuesta,
-            'descripcion' => $request->descripcion,
+        $claim = Claim::create([
+            'user_id' => $user->id,
+            'purchase_code' => $request->purchase_code,
+            'response_date' => $request->purchase_date,
+            'response_mode' => $request->response_mode,
+            'description' => $request->description,
+            // 'document' => $request->document_number, // Descomenta si es necesario
         ]);
-
-        // Redirigir con un mensaje de éxito
-        return redirect()->route('claims.create')->with('success', 'Reclamo enviado con éxito.');
+    
+        // Verificar si el reclamo se ha creado correctamente
+        if ($claim) {
+            return response()->json(['success' => true, 'message' => 'Reclamo enviado con éxito.']);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Error al enviar el reclamo.'], 500);
+        }
     }
+    
+
+
+
+
+
+
     /**
      * Display the specified resource.
      */

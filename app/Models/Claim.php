@@ -15,9 +15,9 @@ class Claim extends Model
         'response_mode',
         'purchase_code',
         'user_id',
-        'product_id',
-        'employee_id',
-        'document'
+        // 'product_id',
+        // 'employee_id',
+        // 'document'
     ];
 
     public function user()
@@ -25,10 +25,10 @@ class Claim extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function product()
-    {
-        return $this->belongsTo(Product::class);
-    }
+    // public function product()
+    // {
+    //     return $this->belongsTo(Product::class);
+    // }
 
     public function employee()
     {

@@ -50,8 +50,8 @@ class User extends Authenticatable
 
     public function documentTypes()
     {
-        return $this->belongsToMany(DocumentType::class)
-            ->using(UserDocument::class)
+        return $this->belongsToMany(DocumentType::class, 'user_documents')
             ->withPivot('document_number');
     }
+
 }
