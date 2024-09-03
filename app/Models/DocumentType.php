@@ -17,13 +17,13 @@ class DocumentType extends Model
     {
         return $this->belongsToMany(User::class)
             ->using(UserDocument::class)
-            ->withPivot('nro_documento');
+            ->withPivot('document_number');
     }
 
     public function employees()
     {
         return $this->belongsToMany(Employee::class)
             ->using(EmployeeDocument::class)
-            ->withPivot('nro_documento');
+            ->withPivot('document_number');
     }
 }
