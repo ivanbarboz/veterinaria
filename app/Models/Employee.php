@@ -9,20 +9,18 @@ class Employee extends Model
 {
     use HasFactory;
 
-    protected $table = 'employee';
-
     protected $fillable = [
-        'nombres',
-        'apellidos',
-        'telefono',
-        'correo',
-        'fecha_nacimiento',
-        'ubicacion'
+        'firstname',
+        'lastname',
+        'phone',
+        'email',
+        'birthdate',
+        'location'
     ];
 
     public function documentTypes()
     {
-        return $this->belongsToMany(DocumentType::class, 'employee_document', 'employee_id', 'document_type_id')
+        return $this->belongsToMany(DocumentType::class)
             ->using(EmployeeDocument::class)
             ->withPivot('nro_documento');
     }

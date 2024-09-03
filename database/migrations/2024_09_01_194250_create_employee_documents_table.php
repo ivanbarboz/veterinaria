@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_document', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('document_type_id')->constrained('document_type');
-            $table->string('nro_documento', 20);
+        Schema::create('employee_documents', function (Blueprint $table) {
+            $table->foreignId('employee_id')->constrained();
+            $table->foreignId('document_type_id')->constrained();
+            $table->string('document_number', 20);
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_document');
+        Schema::dropIfExists('employee_documents');
     }
 };

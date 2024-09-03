@@ -9,12 +9,10 @@ class Purchase extends Model
 {
     use HasFactory;
 
-    protected $table = 'purchase';
-
     protected $fillable = [
-        'cod_compra',
-        'fecha_compra',
-        'monto_total',
+        'purchase_code',
+        'purchase_date',
+        'total_price',
         'user_id',
         'employee_id'
     ];
@@ -31,10 +29,10 @@ class Purchase extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'purchase_product', 'purchase_id', 'product_id')
+        return $this->belongsToMany(Product::class)
             ->using(PurchaseProduct::class)
             ->withPivot([
-                'cantidad',
+                'amount',
                 'sub_total',
                 'unit_id'
             ]);

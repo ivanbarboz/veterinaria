@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employee', function (Blueprint $table) {
+        Schema::create('purchases', function (Blueprint $table) {
             $table->id();
-            $table->string('nombres');
-            $table->string('apellidos');
-            $table->string('telefono', 10);
-            $table->string('correo', 120);
-            $table->date('fecha_nacimiento');
-            $table->string('ubicacion', 120);
+            $table->string('purchase_code', 120);
+            $table->date('purchase_date');
+            $table->decimal('total_price', 8, 2);
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('employee_id')->constrained();
             $table->timestamps();
         });
     }
@@ -28,7 +27,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('employee_document');
-        Schema::dropIfExists('employee');
+        Schema::dropIfExists('purchase_products');
+        Schema::dropIfExists('purchases');
     }
 };

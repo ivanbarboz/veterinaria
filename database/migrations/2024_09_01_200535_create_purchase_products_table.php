@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('unit', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre', 20);
+        Schema::create('purchase_products', function (Blueprint $table) {
+            $table->foreignId('purchase_id')->constrained();
+            $table->foreignId('product_id')->constrained();
+            $table->integer('amount');
+            $table->decimal('sub_total', 8, 2);
+            $table->foreignId('unit_id')->constrained();
             $table->timestamps();
         });
     }
@@ -23,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('unit');
+        Schema::dropIfExists('purchase_products');
     }
 };
