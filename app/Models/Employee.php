@@ -14,7 +14,7 @@ class Employee extends Model
         'lastname',
         'phone',
         'email',
-        'birthdate',
+        '   ',
         'location'
     ];
 

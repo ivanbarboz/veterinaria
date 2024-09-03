@@ -17,12 +17,12 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'nombres',
-        'apellidos',
-        'correo',
-        'estado',
-        'telefono',
-        'contraseña'
+        'firstname',
+        'lastname',
+        'email',
+        'status',
+        'phone',
+        'password'
     ];
 
     /**
@@ -50,8 +50,8 @@ class User extends Authenticatable
 
     public function documentTypes()
     {
-        return $this->belongsToMany(DocumentType::class, 'user_document', 'user_id', 'document_type_id')
+        return $this->belongsToMany(DocumentType::class)
             ->using(UserDocument::class)
-            ->withPivot('nro_documento');
+            ->withPivot('document_number');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\DocumentType;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,6 +13,8 @@ class DocumentTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        DocumentType::create(["name" => "DNI"]);
+        DocumentType::create(["name" => "RUC"]);
+        DocumentType::create(["name" => "Pasaporte"]);   
     }
 }
