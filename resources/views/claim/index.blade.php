@@ -26,8 +26,6 @@
             <label for="telefono">Teléfono</label>
             <input type="text" name="telefono" id="telefono">
             <br>
-            <input type="text" name="telefono" id="telefono">
-            <br>
             <label for="user_document">Documento</label>
             <select name="user_document" id="user_document">
                 <option value="1">DNI</option>
