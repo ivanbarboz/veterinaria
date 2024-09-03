@@ -9,24 +9,22 @@ class ProductUnit extends Model
 {
     use HasFactory;
 
-    protected $table = 'product_unit';
-
     protected $fillable = [
         'product_id',
         'unit_id',
-        'precio',
-        'stock_actual',
+        'price',
+        'current_stock',
         'stock',
-        'ultimo_abastecimiento'
+        'last_supply'
     ];
 
     public function product()
     {
-        return $this->belongsTo(Product::class, 'product_id');
+        return $this->belongsTo(Product::class);
     }
 
     public function unit()
     {
-        return $this->belongsTo(Unit::class, 'unit_id');
+        return $this->belongsTo(Unit::class);
     }
 }

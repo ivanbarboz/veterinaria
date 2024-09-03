@@ -9,20 +9,18 @@ class Unit extends Model
 {
     use HasFactory;
 
-    protected $table = 'unit';
-
     protected $fillable = [
-        'nombre'
+        'name'
     ];
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'product_unit', 'unit_id', 'product_id')
+        return $this->belongsToMany(Product::class)
             ->using(ProductUnit::class)
             ->withPivot([
-                'stock_actual',
+                'current_stock',
                 'stock',
-                'ultimo_abastecimiento'
+                'last_supply'
             ]);
     }
 }

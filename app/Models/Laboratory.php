@@ -9,15 +9,13 @@ class Laboratory extends Model
 {
     use HasFactory;
 
-    protected $table = 'laboratory';
-
     protected $fillable = [
-        'nombre',
-        'ubicacion'
+        'name',
+        'location'
     ];
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'product_laboratory', 'laboratory_id', 'product_id');
+        return $this->belongsToMany(Product::class);
     }
 }

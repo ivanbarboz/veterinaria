@@ -7,18 +7,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/formulario-reclamos', [ClaimController::class, 'index']);
+Route::get('/claim-form', [ClaimController::class, 'index'])->name('claim-form');
 
 Route::post('/register-claim', [ClaimController::class, 'store'])->name('register-claim');
 
-
-
-
-
-///
-// routes/web.php
-
-use App\Http\Controllers\ReclamoController;
 
 Route::get('login', function () {
     return view('auth.login');

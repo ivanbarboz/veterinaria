@@ -9,17 +9,15 @@ class Claim extends Model
 {
     use HasFactory;
 
-    protected $table = 'claim';
-
     protected $fillable = [
-        'descripcion',
-        'fecha_respuesta',
-        'modo_respuesta',
-        'cod_compra',
+        'description',
+        'response_date',
+        'response_mode',
+        'purchase_code',
         'user_id',
         'product_id',
         'employee_id',
-        'documento'
+        'document'
     ];
 
     public function user()

@@ -9,12 +9,10 @@ class EmployeeDocument extends Model
 {
     use HasFactory;
 
-    protected $table = 'employee_document';
-
     protected $fillable = [
         'employee_id',
         'document_type_id',
-        'nro_documento'
+        'document_number'
     ];
 
     public function employee()

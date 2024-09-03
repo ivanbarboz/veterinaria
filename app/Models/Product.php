@@ -9,22 +9,20 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $table = 'product';
-
     protected $fillable = [
-        'nombre',
-        'descripcion',
-        'fecha_vencimiento'
+        'name',
+        'description',
+        'expiration_date'
     ];
 
     public function laboratories()
     {
-        return $this->belongsToMany(Laboratory::class, 'product_laboratory', 'product_id', 'laboratory_id');
+        return $this->belongsToMany(Laboratory::class);
     }
 
     public function units()
     {
-        return $this->belongsToMany(Unit::class, 'product_unit', 'product_id', 'unit_id')
+        return $this->belongsToMany(Unit::class)
             ->using(ProductUnit::class)
             ->withPivot([
                 'stock_actual',

@@ -13,8 +13,8 @@ class DocumentTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        DocumentType::create(["nombre" => "DNI"]);
-        DocumentType::create(["nombre" => "RUC"]);
-        DocumentType::create(["nombre" => "Pasaporte"]);     
+        DocumentType::create(["name" => "DNI"]);
+        DocumentType::create(["name" => "RUC"]);
+        DocumentType::create(["name" => "Pasaporte"]);   
     }
 }

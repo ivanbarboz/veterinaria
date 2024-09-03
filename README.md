@@ -43,34 +43,32 @@ Paso a paso de lo que debes ejecutar para tener el proyecto ejecutandose
 
 ## Diagrama Entidad - Relación
 ```mermaid
----
-title: Veterinaria
----
 erDiagram
-    unit {
+    units {
         int id "Identificador de la unidad"
-        varchar(20) nombre "Nombre de la unidad"
+        varchar(20) name "Nombre de la unidad"
     }
 
-    product {
+    products {
         int id "Identificador del producto"
-        varchar(80) nombre "Nombre del producto"
-        decimal precio "Precio del producto"
-        date fecha_vencimiento "Fecha en la que el producto vence"
+        varchar(80) name "Nombre del producto"
+        varchar(255) description "Descripción del producto"
+        date expiration_date "Fecha en la que el producto vence"
     }
 
     product_unit {
         int product_id "Identificador del producto"
         int unit_id "Identificador de la unidad"
+        decimal price "Precio del producto por la unidad"
         int current_stock "Cantidad actual del producto"
         int stock "El stock inicial en el ultimo ingreso"
-        date last_entry "Fecha del ultimo ingreso del producto con la unidad"
+        date last_supply "Fecha del ultimo ingreso del producto con la unidad"
     }
 
-    laboratory {
+    laboratories {
         int id "Identificador del laboratorio"
-        varchar(80) nombre "Nombre del laboratorio"
-        varchar(120) ubicacion "Ubicación del laboratorio"
+        varchar(80) name "Nombre del laboratorio"
+        varchar(120) location "Ubicación del laboratorio"
     }
 
     product_laboratory {
@@ -78,44 +76,47 @@ erDiagram
         int laboratory_id
     }
 
-    document_type {
+    document_types {
         int id "Identificador del documento"
-        varchar(40) nombre "Nombre del documento"
+        varchar(40) name "Nombre del documento"
     }
 
     user_document {
         int user_id "Identificador del usuario"
         int document_type_id "Identificador del tipo de documento"
-        varchar(20) nro_document "Número del documento"
+        varchar(20) document_number "Número del documento"
     }
 
-    user {
+    users {
         int id "Identificador del usuario (Cliente)"
-        varchar(120) nombres "Nombres del usuario"
-        varchar(120) apellidos "Apellidos del usuario"
-        varchar(160) correo "Correo del usuario"
-        varchar(1) estado "Estado de la cuenta A (Activado) D (Desactivado)"
+        varchar(120) firstname "Nombres del usuario"
+        varchar(120) lastname "Apellidos del usuario"
+        varchar(160) email "Correo del usuario"
+        varchar(10) phone "Teléfono del usuario"
+        varchar(1) status "Estado de la cuenta A (Activado) D (Desactivado)"
     }
 
-    employee {
+    employees {
         int id "Identificador del empleado"
-        varchar(120) nombres "Nombres del empleado"
-        varchar(120) apellidos "Apellidos del empleado"
-        varchar(10) telefono "Número de telefono del empleado"
-        varchar(120) correo "Correo del empleado"
-        date fecha_nacimiento "Fecha de nacimiento del empleado" 
+        varchar(120) firstname "Nombres del empleado"
+        varchar(120) lastname "Apellidos del empleado"
+        varchar(10) phone "Número de telefono del empleado"
+        varchar(120) email "Correo del empleado"
+        date birthdate "Fecha de nacimiento del empleado"
+        varchar(120) location "Ubicación del empleado" 
     }
 
     employee_document {
         int employee_id "Identificador del empleado"
         int document_type_id "Identificador del tipo de documento"
+        varchar(20) document_number "Número del documento"
     }
 
-    purchase {
+    purchases {
         int id "Identificador de compra"
-        varchar(120) cod_compra "Código de identificación de compra"
-        date fecha_compra "Fecha de la compra"
-        decimal monto_total "Monto pagado por la compra"
+        varchar(120) purchase_code "Código de identificación de compra"
+        date purchase_date "Fecha de la compra"
+        decimal total_price "Monto pagado por la compra"
         int user_id "Usuario que realizo la compra"
         int employee_id "Empleado que atendi la compra"
     }
@@ -123,37 +124,40 @@ erDiagram
     purchase_product {
         int purchase_id "Identificador de la compra"
         int product_id "Identificador del producto"
-        int cantidad "Cantidad del producto por compra"
+        int amount "Cantidad del producto por compra"
+        decimal sub_total "Precio del producto por la cantidad"
+        int unit_id "Unidad del producto comprado"
     }
 
-    claim {
+    claims {
         int id "Identificador del reclamo"
-        varchar(255) descripcion "Descripción del reclamo"
-        date fecha_respuesta "Fecha en la que se respondio al reclamo"
-        varchar(1) modo_respuesta "C (Correo), T (Telefono), L (Legal)"
-        varchar(20) cod_compra "Código de la compra"
+        varchar(255) description "Descripción del reclamo"
+        date response_date "Fecha en la que se respondio al reclamo"
+        varchar(1) response_mode "C (Correo), T (Telefono), L (Legal)"
+        varchar(20) purchase_code "Código de la compra"
         int user_id "Indentificador del usuario"
         int product_id "Identificador del producto"
         int employee_id "Identificador del empleado"
+        varchar(255) document "Documento (Comprobante de compra, factura, etc)"
     }
 
-    product_laboratory }|--|| laboratory : "fabrica"
-    product ||--|{ product_laboratory : "lo fabrican"
-    product_unit }|--|| product : "esta disponible"
-    unit ||--|{ product_unit : "la tienen disponible"
+    product_laboratory }|--|| laboratories : "fabrica"
+    products ||--|{ product_laboratory : "lo fabrican"
+    product_unit }|--|| products : "esta disponible"
+    units ||--|{ product_unit : "la tienen disponible"
     
-    user ||--|{ user_document : "tiene"
-    user_document }|--|| document_type : "lo tienen"
+    users ||--|{ user_document : "tiene"
+    user_document }|--|| document_types : "lo tienen"
 
-    employee_document }|--|| employee : "tiene"
-    document_type ||--|{ employee_document : "lo tienen"
+    employee_document }|--|| employees : "tiene"
+    document_types ||--|{ employee_document : "lo tienen"
 
-    product ||--|{ purchase_product : "pertenece"
-    purchase ||--|{ purchase_product : "contiene"
-    employee ||--|{ purchase : "atiende"
-    user ||--|{ purchase : "realiza"
+    products ||--|{ purchase_product : "pertenece"
+    purchases ||--|{ purchase_product : "contiene"
+    employees ||--|{ purchases : "atiende"
+    users ||--|{ purchases : "realiza"
 
-    user ||--|{ claim : "realiza"
-    employee ||--|{ claim : "atiende"
-    claim }|--|| product : "esta en"
+    users ||--|{ claims : "realiza"
+    employees ||--|{ claims : "atiende"
+    claims }|--|| products : "esta en"
 ```
