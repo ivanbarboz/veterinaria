@@ -14,7 +14,7 @@ class Employee extends Model
         'lastname',
         'phone',
         'email',
-        '   ',
+        'birthdate',
         'location'
     ];
 
@@ -22,6 +22,6 @@ class Employee extends Model
     {
         return $this->belongsToMany(DocumentType::class)
             ->using(EmployeeDocument::class)
-            ->withPivot('nro_documento');
+            ->withPivot('document_number');
     }
 }
