@@ -18,7 +18,7 @@ return new class extends Migration
             $table->char('response_mode', 1);
             $table->string('purchase_code', 120);
             $table->foreignId('user_id')->constrained();
-            // $table->foreignId('product_id')->constrained();
+            $table->foreignId('product_id')->constrained();
             // $table->foreignId('employee_id')->constrained();
             // $table->string('document', 255);
             $table->timestamps();

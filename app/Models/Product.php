@@ -31,6 +31,11 @@ class Product extends Model
             ]);
     }
 
+    public function claims()
+    {
+        return $this->hasMany(Claim::class);
+    }
+
     public function purchases()
     {
         return $this->belongsToMany(Purchase::class, 'purchase_product', 'product_id', 'purchase_id')

@@ -53,6 +53,14 @@
 
                     <h2>Datos del reclamo</h2>
                     <div class="input-group">
+                        <label for="product_id">Selecciones producto</label>
+                        <select name="product_id" id="product_id">
+                            @foreach ($products as $product)
+                                <option value="{{ $product->id }}">{{ $product->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="input-group">
                         <label for="purchase_code">Código de compra</label>
                         <input type="text" name="purchase_code" id="purchase_code">
                     </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Claim;
 use App\Models\DocumentType;
+use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class ClaimController extends Controller
      */
     public function index()
     {
-        return view('claim.index');
+        return view('claim.index', ['products' => Product::all()]);
     }
 
     /**
@@ -89,6 +90,7 @@ class ClaimController extends Controller
             'response_date' => $request->purchase_date,
             'response_mode' => $request->response_mode,
             'description' => $request->description,
+            'product_id' => $request->product_id,
             // 'document' => $request->document_number, // Descomenta si es necesario
         ]);
     
